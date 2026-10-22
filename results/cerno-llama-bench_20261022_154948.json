@@ -1,0 +1,72 @@
+{
+  "name": "cerno-llama-bench",
+  "command": "md5sum models/cerno-4b-v1.1-q4_0.gguf; sha256sum tmp/cerno/llama-server | cut -c1-16; llama/llama-bench -m models/cerno-4b-v1.1-q4_0.gguf -t 4 -p 64,256 -n 0 -r 2 -o json 2>/dev/null | python3 -c 'import json,sys; [print(\"RESULT \"+json.dumps({k:d.get(k) for k in (\"n_prompt\",\"n_gen\",\"n_threads\",\"avg_ts\",\"stddev_ts\",\"model_type\",\"build_commit\",\"n_batch\",\"n_ubatch\")})) for d in json.load(sys.stdin)]'",
+  "timestamp": "2026-10-22T15:49:48",
+  "exit_code": 0,
+  "valid": true,
+  "results": [
+    {
+      "n_prompt": 64,
+      "n_gen": 0,
+      "n_threads": 4,
+      "avg_ts": 2.433946,
+      "stddev_ts": 0.018149,
+      "model_type": "qwen35 4B Q4_0",
+      "build_commit": "620d222",
+      "n_batch": 2048,
+      "n_ubatch": 512
+    },
+    {
+      "n_prompt": 256,
+      "n_gen": 0,
+      "n_threads": 4,
+      "avg_ts": 2.446497,
+      "stddev_ts": 0.002118,
+      "model_type": "qwen35 4B Q4_0",
+      "build_commit": "620d222",
+      "n_batch": 2048,
+      "n_ubatch": 512
+    }
+  ],
+  "unparsed": [],
+  "stdout": "038964105467d52a388591e819d16a67  models/cerno-4b-v1.1-q4_0.gguf\nfc8074d2836b8e39\nRESULT {\"n_prompt\": 64, \"n_gen\": 0, \"n_threads\": 4, \"avg_ts\": 2.433946, \"stddev_ts\": 0.018149, \"model_type\": \"qwen35 4B Q4_0\", \"build_commit\": \"620d222\", \"n_batch\": 2048, \"n_ubatch\": 512}\nRESULT {\"n_prompt\": 256, \"n_gen\": 0, \"n_threads\": 4, \"avg_ts\": 2.446497, \"stddev_ts\": 0.002118, \"model_type\": \"qwen35 4B Q4_0\", \"build_commit\": \"620d222\", \"n_batch\": 2048, \"n_ubatch\": 512}\n",
+  "stderr": "",
+  "state_before": {
+    "model": "Raspberry Pi 4 Model B Rev 1.1",
+    "boot_time": "2026-10-22 01:35:00",
+    "boot_id": "6e970849-272d-4006-bd8b-3053fa942c9d",
+    "kernel": "6.18.50+rpt-rpi-v8",
+    "cmdline": "coherent_pool=1M 8250.nr_uarts=0 snd_bcm2835.enable_headphones=0 cgroup_disable=memory numa_policy=interleave nvme.max_host_mem_size_mb=32 snd_bcm2835.enable_headphones=1 snd_bcm2835.enable_hdmi=1 snd_bcm2835.enable_hdmi=0  numa=fake=2 system_heap.max_order=0 iommu_dma_numa_policy=interleave smsc95xx.macaddr=<mac> vc_mem.mem_base=0x3eb00000 vc_mem.mem_size=0x3ff00000  console=ttyS0,115200 console=tty1 root=PARTUUID=393ab1fb-02 rootfstype=ext4 fsck.repair=yes rootwait cfg80211.ieee80211_regdom=KR",
+    "page_size": "4096",
+    "cpu_features": "fp asimd evtstrm crc32 cpuid",
+    "governor": "ondemand",
+    "freq_khz": "1500000 1500000 1500000 1500000",
+    "isolated": "",
+    "nohz_full": "",
+    "temp": "45.2'C",
+    "throttled": "0x0",
+    "hugepages_total": "",
+    "thp": "",
+    "mem_avail_mb": "3558",
+    "python": "Python 3.13.5"
+  },
+  "state_after": {
+    "model": "Raspberry Pi 4 Model B Rev 1.1",
+    "boot_time": "2026-10-22 01:35:00",
+    "boot_id": "6e970849-272d-4006-bd8b-3053fa942c9d",
+    "kernel": "6.18.50+rpt-rpi-v8",
+    "cmdline": "coherent_pool=1M 8250.nr_uarts=0 snd_bcm2835.enable_headphones=0 cgroup_disable=memory numa_policy=interleave nvme.max_host_mem_size_mb=32 snd_bcm2835.enable_headphones=1 snd_bcm2835.enable_hdmi=1 snd_bcm2835.enable_hdmi=0  numa=fake=2 system_heap.max_order=0 iommu_dma_numa_policy=interleave smsc95xx.macaddr=<mac> vc_mem.mem_base=0x3eb00000 vc_mem.mem_size=0x3ff00000  console=ttyS0,115200 console=tty1 root=PARTUUID=393ab1fb-02 rootfstype=ext4 fsck.repair=yes rootwait cfg80211.ieee80211_regdom=KR",
+    "page_size": "4096",
+    "cpu_features": "fp asimd evtstrm crc32 cpuid",
+    "governor": "ondemand",
+    "freq_khz": "1500000 1500000 1500000 1500000",
+    "isolated": "",
+    "nohz_full": "",
+    "temp": "58.4'C",
+    "throttled": "0x0",
+    "hugepages_total": "",
+    "thp": "",
+    "mem_avail_mb": "3558",
+    "python": "Python 3.13.5"
+  }
+}

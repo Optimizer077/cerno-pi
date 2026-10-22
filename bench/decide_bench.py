@@ -1,4 +1,4 @@
-"""Time cerno_pi decisions on the Pi (run through piquant's `harness/pi.py bench`).
+"""Time cerno_pi decisions on the Pi (run through nibblepi's `harness/pi.py bench`).
 
 Prints one `RESULT {json}` line per request (answers, unrounded probabilities, row token ids,
 per-row timing) and a final summary line with the latency distribution and peak RSS, which the

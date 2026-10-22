@@ -1,0 +1,402 @@
+{
+  "name": "cerno-llama-server-1",
+  "command": "python3 tmp/cerno/bench/llama_pi.py --server tmp/cerno/llama-server --gguf models/cerno-4b-v1.1-q4_0.gguf --rows tmp/cerno/results/ref_llama_pc.jsonl --only support_triage,agent_guardrail,sentiment_review,phishing",
+  "timestamp": "2026-10-22T15:59:28",
+  "exit_code": 0,
+  "valid": true,
+  "results": [
+    {
+      "name": "support_triage",
+      "total_seconds": 103.71591929299757,
+      "rows": [
+        {
+          "question": "kind",
+          "seconds": 34.34674549000192,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 84,
+            "prompt_ms": 34125.083,
+            "prompt_per_token_ms": 406.2509880952381,
+            "prompt_per_second": 2.461532474514421,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.034954895743091303,
+            0.05990698668795775,
+            0.15741479646203563,
+            0.10140204836430862,
+            0.028855582606678455,
+            0.6174656901359282
+          ]
+        },
+        {
+          "question": "urgency",
+          "seconds": 27.758515836998413,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 68,
+            "prompt_ms": 27552.09,
+            "prompt_per_token_ms": 405.17779411764707,
+            "prompt_per_second": 2.468052332872025,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.4635051862405066,
+            0.3206750012331405,
+            0.180412261609861,
+            0.035407550916491864
+          ]
+        },
+        {
+          "question": "tone",
+          "seconds": 23.31791099700058,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 57,
+            "prompt_ms": 23128.939,
+            "prompt_per_token_ms": 405.77085964912277,
+            "prompt_per_second": 2.464445083278572,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.015293098649575862,
+            0.032986547828121326,
+            0.8415300656916002,
+            0.11019028783070262
+          ]
+        },
+        {
+          "question": "needs_human",
+          "seconds": 18.289891334003187,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 44,
+            "prompt_ms": 18047.852,
+            "prompt_per_token_ms": 410.17845454545454,
+            "prompt_per_second": 2.4379632545745613,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.5002914177217709,
+            0.4997085822782291
+          ]
+        }
+      ]
+    },
+    {
+      "name": "agent_guardrail",
+      "total_seconds": 118.19684158699965,
+      "rows": [
+        {
+          "question": "destructive",
+          "seconds": 25.59435084099823,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 62,
+            "prompt_ms": 25335.29,
+            "prompt_per_token_ms": 408.63370967741935,
+            "prompt_per_second": 2.447179408643043,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.0919302521883538,
+            0.9080697478116462
+          ]
+        },
+        {
+          "question": "matches_request",
+          "seconds": 25.381495615998574,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 61,
+            "prompt_ms": 25335.671,
+            "prompt_per_token_ms": 415.338868852459,
+            "prompt_per_second": 2.4076725656881166,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.1850360645387636,
+            0.8149639354612365
+          ]
+        },
+        {
+          "question": "external_effect",
+          "seconds": 28.324138317999314,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 69,
+            "prompt_ms": 28286.835,
+            "prompt_per_token_ms": 409.9541304347826,
+            "prompt_per_second": 2.439297291478527,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.9607776220877001,
+            0.0392223779122998
+          ]
+        },
+        {
+          "question": "risk",
+          "seconds": 38.89523832099803,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 94,
+            "prompt_ms": 38614.606,
+            "prompt_per_token_ms": 410.7936808510638,
+            "prompt_per_second": 2.43431203208444,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.08036342296394391,
+            0.6694958693981392,
+            0.2005105523283215,
+            0.049630155309595414
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sentiment_review",
+      "total_seconds": 130.06327274799696,
+      "rows": [
+        {
+          "question": "overall",
+          "seconds": 31.198913950000133,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 68,
+            "prompt_ms": 28694.517,
+            "prompt_per_token_ms": 421.9781911764706,
+            "prompt_per_second": 2.369790716463358,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.04092401062291818,
+            0.6011702662036944,
+            0.3579057231733874
+          ]
+        },
+        {
+          "question": "camera",
+          "seconds": 30.34820947800472,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 72,
+            "prompt_ms": 30295.97,
+            "prompt_per_token_ms": 420.77736111111113,
+            "prompt_per_second": 2.37655371324965,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.5614222191806625,
+            0.35872427233106957,
+            0.02389701215578644,
+            0.05595649633248153
+          ]
+        },
+        {
+          "question": "price_complaint",
+          "seconds": 26.794962553001824,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 65,
+            "prompt_ms": 26760.275,
+            "prompt_per_token_ms": 411.69653846153847,
+            "prompt_per_second": 2.428973543807005,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.5066551221958016,
+            0.49334487780419845
+          ]
+        },
+        {
+          "question": "stars",
+          "seconds": 41.718911639996804,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 102,
+            "prompt_ms": 41686.923,
+            "prompt_per_token_ms": 408.6953235294118,
+            "prompt_per_second": 2.4468104781924054,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.012896598065920906,
+            0.02772393762526301,
+            0.2996088670681294,
+            0.6270649436780397,
+            0.0327056535626471
+          ]
+        }
+      ]
+    },
+    {
+      "name": "phishing",
+      "total_seconds": 125.01217330899817,
+      "rows": [
+        {
+          "question": "phishing",
+          "seconds": 36.949976045994845,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 79,
+            "prompt_ms": 35602.576,
+            "prompt_per_token_ms": 450.6655189873418,
+            "prompt_per_second": 2.218940562053712,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.015557000746331276,
+            0.9844429992536686
+          ]
+        },
+        {
+          "question": "action",
+          "seconds": 45.997175440999854,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 110,
+            "prompt_ms": 45818.697,
+            "prompt_per_token_ms": 416.53360909090907,
+            "prompt_per_second": 2.4007666564590435,
+            "predicted_n": 1,
+            "predicted_ms": 0.004,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.010793637524879413,
+            0.7206065755246379,
+            0.2518424112912341,
+            0.01675737565924856
+          ]
+        },
+        {
+          "question": "severity",
+          "seconds": 42.061355181998806,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 101,
+            "prompt_ms": 41996.265,
+            "prompt_per_token_ms": 415.80460396039604,
+            "prompt_per_second": 2.4049757758219688,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.025424561405265438,
+            0.08174631707520139,
+            0.16679554924314285,
+            0.7260335722763903
+          ]
+        }
+      ]
+    },
+    {
+      "summary": true,
+      "engine": "llama-server",
+      "cmd": "tmp/cerno/llama-server -m models/cerno-4b-v1.1-q4_0.gguf --host 127.0.0.1 --port 8095 -c 4096 -t 4 --parallel 1",
+      "load_s": 19.347425719999592,
+      "requests": 4,
+      "questions": 15,
+      "decision_s": {
+        "median": 121.60450744799891,
+        "mean": 119.24705173424809,
+        "max": 130.06327274799696
+      },
+      "first_question_s": {
+        "median": 32.77282972000103,
+        "mean": 32.02249658174878
+      },
+      "later_question_s": {
+        "median": 28.324138317999314,
+        "mean": 31.71707315609092,
+        "n": 11
+      },
+      "server_peak_rss_mib": 3514.4
+    }
+  ],
+  "unparsed": [],
+  "stdout": "RESULT {\"name\": \"support_triage\", \"total_seconds\": 103.71591929299757, \"rows\": [{\"question\": \"kind\", \"seconds\": 34.34674549000192, \"timings\": {\"cache_n\": 0, \"prompt_n\": 84, \"prompt_ms\": 34125.083, \"prompt_per_token_ms\": 406.2509880952381, \"prompt_per_second\": 2.461532474514421, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.034954895743091303, 0.05990698668795775, 0.15741479646203563, 0.10140204836430862, 0.028855582606678455, 0.6174656901359282]}, {\"question\": \"urgency\", \"seconds\": 27.758515836998413, \"timings\": {\"cache_n\": 0, \"prompt_n\": 68, \"prompt_ms\": 27552.09, \"prompt_per_token_ms\": 405.17779411764707, \"prompt_per_second\": 2.468052332872025, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.4635051862405066, 0.3206750012331405, 0.180412261609861, 0.035407550916491864]}, {\"question\": \"tone\", \"seconds\": 23.31791099700058, \"timings\": {\"cache_n\": 0, \"prompt_n\": 57, \"prompt_ms\": 23128.939, \"prompt_per_token_ms\": 405.77085964912277, \"prompt_per_second\": 2.464445083278572, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.015293098649575862, 0.032986547828121326, 0.8415300656916002, 0.11019028783070262]}, {\"question\": \"needs_human\", \"seconds\": 18.289891334003187, \"timings\": {\"cache_n\": 0, \"prompt_n\": 44, \"prompt_ms\": 18047.852, \"prompt_per_token_ms\": 410.17845454545454, \"prompt_per_second\": 2.4379632545745613, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.5002914177217709, 0.4997085822782291]}]}\nRESULT {\"name\": \"agent_guardrail\", \"total_seconds\": 118.19684158699965, \"rows\": [{\"question\": \"destructive\", \"seconds\": 25.59435084099823, \"timings\": {\"cache_n\": 0, \"prompt_n\": 62, \"prompt_ms\": 25335.29, \"prompt_per_token_ms\": 408.63370967741935, \"prompt_per_second\": 2.447179408643043, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.0919302521883538, 0.9080697478116462]}, {\"question\": \"matches_request\", \"seconds\": 25.381495615998574, \"timings\": {\"cache_n\": 0, \"prompt_n\": 61, \"prompt_ms\": 25335.671, \"prompt_per_token_ms\": 415.338868852459, \"prompt_per_second\": 2.4076725656881166, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.1850360645387636, 0.8149639354612365]}, {\"question\": \"external_effect\", \"seconds\": 28.324138317999314, \"timings\": {\"cache_n\": 0, \"prompt_n\": 69, \"prompt_ms\": 28286.835, \"prompt_per_token_ms\": 409.9541304347826, \"prompt_per_second\": 2.439297291478527, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.9607776220877001, 0.0392223779122998]}, {\"question\": \"risk\", \"seconds\": 38.89523832099803, \"timings\": {\"cache_n\": 0, \"prompt_n\": 94, \"prompt_ms\": 38614.606, \"prompt_per_token_ms\": 410.7936808510638, \"prompt_per_second\": 2.43431203208444, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.08036342296394391, 0.6694958693981392, 0.2005105523283215, 0.049630155309595414]}]}\nRESULT {\"name\": \"sentiment_review\", \"total_seconds\": 130.06327274799696, \"rows\": [{\"question\": \"overall\", \"seconds\": 31.198913950000133, \"timings\": {\"cache_n\": 0, \"prompt_n\": 68, \"prompt_ms\": 28694.517, \"prompt_per_token_ms\": 421.9781911764706, \"prompt_per_second\": 2.369790716463358, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.04092401062291818, 0.6011702662036944, 0.3579057231733874]}, {\"question\": \"camera\", \"seconds\": 30.34820947800472, \"timings\": {\"cache_n\": 0, \"prompt_n\": 72, \"prompt_ms\": 30295.97, \"prompt_per_token_ms\": 420.77736111111113, \"prompt_per_second\": 2.37655371324965, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.5614222191806625, 0.35872427233106957, 0.02389701215578644, 0.05595649633248153]}, {\"question\": \"price_complaint\", \"seconds\": 26.794962553001824, \"timings\": {\"cache_n\": 0, \"prompt_n\": 65, \"prompt_ms\": 26760.275, \"prompt_per_token_ms\": 411.69653846153847, \"prompt_per_second\": 2.428973543807005, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.5066551221958016, 0.49334487780419845]}, {\"question\": \"stars\", \"seconds\": 41.718911639996804, \"timings\": {\"cache_n\": 0, \"prompt_n\": 102, \"prompt_ms\": 41686.923, \"prompt_per_token_ms\": 408.6953235294118, \"prompt_per_second\": 2.4468104781924054, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.012896598065920906, 0.02772393762526301, 0.2996088670681294, 0.6270649436780397, 0.0327056535626471]}]}\nRESULT {\"name\": \"phishing\", \"total_seconds\": 125.01217330899817, \"rows\": [{\"question\": \"phishing\", \"seconds\": 36.949976045994845, \"timings\": {\"cache_n\": 0, \"prompt_n\": 79, \"prompt_ms\": 35602.576, \"prompt_per_token_ms\": 450.6655189873418, \"prompt_per_second\": 2.218940562053712, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.015557000746331276, 0.9844429992536686]}, {\"question\": \"action\", \"seconds\": 45.997175440999854, \"timings\": {\"cache_n\": 0, \"prompt_n\": 110, \"prompt_ms\": 45818.697, \"prompt_per_token_ms\": 416.53360909090907, \"prompt_per_second\": 2.4007666564590435, \"predicted_n\": 1, \"predicted_ms\": 0.004, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.010793637524879413, 0.7206065755246379, 0.2518424112912341, 0.01675737565924856]}, {\"question\": \"severity\", \"seconds\": 42.061355181998806, \"timings\": {\"cache_n\": 0, \"prompt_n\": 101, \"prompt_ms\": 41996.265, \"prompt_per_token_ms\": 415.80460396039604, \"prompt_per_second\": 2.4049757758219688, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.025424561405265438, 0.08174631707520139, 0.16679554924314285, 0.7260335722763903]}]}\nRESULT {\"summary\": true, \"engine\": \"llama-server\", \"cmd\": \"tmp/cerno/llama-server -m models/cerno-4b-v1.1-q4_0.gguf --host 127.0.0.1 --port 8095 -c 4096 -t 4 --parallel 1\", \"load_s\": 19.347425719999592, \"requests\": 4, \"questions\": 15, \"decision_s\": {\"median\": 121.60450744799891, \"mean\": 119.24705173424809, \"max\": 130.06327274799696}, \"first_question_s\": {\"median\": 32.77282972000103, \"mean\": 32.02249658174878}, \"later_question_s\": {\"median\": 28.324138317999314, \"mean\": 31.71707315609092, \"n\": 11}, \"server_peak_rss_mib\": 3514.4}\n",
+  "stderr": "",
+  "state_before": {
+    "model": "Raspberry Pi 4 Model B Rev 1.1",
+    "boot_time": "2026-10-22 01:35:00",
+    "boot_id": "6e970849-272d-4006-bd8b-3053fa942c9d",
+    "kernel": "6.18.50+rpt-rpi-v8",
+    "cmdline": "coherent_pool=1M 8250.nr_uarts=0 snd_bcm2835.enable_headphones=0 cgroup_disable=memory numa_policy=interleave nvme.max_host_mem_size_mb=32 snd_bcm2835.enable_headphones=1 snd_bcm2835.enable_hdmi=1 snd_bcm2835.enable_hdmi=0  numa=fake=2 system_heap.max_order=0 iommu_dma_numa_policy=interleave smsc95xx.macaddr=<mac> vc_mem.mem_base=0x3eb00000 vc_mem.mem_size=0x3ff00000  console=ttyS0,115200 console=tty1 root=PARTUUID=393ab1fb-02 rootfstype=ext4 fsck.repair=yes rootwait cfg80211.ieee80211_regdom=KR",
+    "page_size": "4096",
+    "cpu_features": "fp asimd evtstrm crc32 cpuid",
+    "governor": "ondemand",
+    "freq_khz": "1500000 1500000 1500000 1500000",
+    "isolated": "",
+    "nohz_full": "",
+    "temp": "55.5'C",
+    "throttled": "0x0",
+    "hugepages_total": "",
+    "thp": "",
+    "mem_avail_mb": "3510",
+    "python": "Python 3.13.5"
+  },
+  "state_after": {
+    "model": "Raspberry Pi 4 Model B Rev 1.1",
+    "boot_time": "2026-10-22 01:35:00",
+    "boot_id": "6e970849-272d-4006-bd8b-3053fa942c9d",
+    "kernel": "6.18.50+rpt-rpi-v8",
+    "cmdline": "coherent_pool=1M 8250.nr_uarts=0 snd_bcm2835.enable_headphones=0 cgroup_disable=memory numa_policy=interleave nvme.max_host_mem_size_mb=32 snd_bcm2835.enable_headphones=1 snd_bcm2835.enable_hdmi=1 snd_bcm2835.enable_hdmi=0  numa=fake=2 system_heap.max_order=0 iommu_dma_numa_policy=interleave smsc95xx.macaddr=<mac> vc_mem.mem_base=0x3eb00000 vc_mem.mem_size=0x3ff00000  console=ttyS0,115200 console=tty1 root=PARTUUID=393ab1fb-02 rootfstype=ext4 fsck.repair=yes rootwait cfg80211.ieee80211_regdom=KR",
+    "page_size": "4096",
+    "cpu_features": "fp asimd evtstrm crc32 cpuid",
+    "governor": "ondemand",
+    "freq_khz": "1500000 1500000 1500000 1500000",
+    "isolated": "",
+    "nohz_full": "",
+    "temp": "56.4'C",
+    "throttled": "0x0",
+    "hugepages_total": "",
+    "thp": "",
+    "mem_avail_mb": "3503",
+    "python": "Python 3.13.5"
+  }
+}

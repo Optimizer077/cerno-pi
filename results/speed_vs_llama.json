@@ -1,0 +1,88 @@
+{
+ "summary": {
+  "requests": 8,
+  "pinfer_total_s": 211.9057,
+  "llama_total_s": 947.9740395589906,
+  "speedup_total": 4.473565550898304,
+  "pinfer_median_s": 27.61005,
+  "llama_median_s": 112.35740311349946,
+  "first_q_median_s": {
+   "pinfer": 11.950700000000001,
+   "llama": 33.6912907545011
+  },
+  "later_q_median_s": {
+   "pinfer": 5.40885,
+   "llama": 33.57901796650185
+  },
+  "llama_pi_vs_ref_x86": {
+   "rows": 26,
+   "max_abs_dp": 0.014576848894821692,
+   "mean_abs_dp": 0.003092039604256462,
+   "argmax_agree": 24
+  },
+  "llama_pi_vs_pinfer": {
+   "rows": 26,
+   "max_abs_dp": 0.012198670603626116,
+   "mean_abs_dp": 0.0027393398944790233,
+   "argmax_agree": 25
+  }
+ },
+ "rows": [
+  {
+   "request": "support_triage",
+   "questions": 4,
+   "pinfer_s": 32.5138,
+   "llama_s": 103.71591929299757,
+   "speedup": 3.1899045726121695
+  },
+  {
+   "request": "agent_guardrail",
+   "questions": 4,
+   "pinfer_s": 29.3958,
+   "llama_s": 118.19684158699965,
+   "speedup": 4.020875144986687
+  },
+  {
+   "request": "sentiment_review",
+   "questions": 4,
+   "pinfer_s": 28.4382,
+   "llama_s": 130.06327274799696,
+   "speedup": 4.573540967712336
+  },
+  {
+   "request": "phishing",
+   "questions": 3,
+   "pinfer_s": 26.7819,
+   "llama_s": 125.01217330899817,
+   "speedup": 4.667785829571396
+  },
+  {
+   "request": "intent_smart_home",
+   "questions": 2,
+   "pinfer_s": 14.9144,
+   "llama_s": 51.08449812599429,
+   "speedup": 3.4251795664588776
+  },
+  {
+   "request": "contract_clause",
+   "questions": 4,
+   "pinfer_s": 37.2225,
+   "llama_s": 244.03498329700233,
+   "speedup": 6.556114804137346
+  },
+  {
+   "request": "medical_triage",
+   "questions": 2,
+   "pinfer_s": 20.0034,
+   "llama_s": 69.34838655900239,
+   "speedup": 3.4668299668557543
+  },
+  {
+   "request": "code_review",
+   "questions": 3,
+   "pinfer_s": 22.6357,
+   "llama_s": 106.51796463999926,
+   "speedup": 4.7057508555069765
+  }
+ ]
+}

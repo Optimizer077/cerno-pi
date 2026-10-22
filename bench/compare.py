@@ -4,7 +4,7 @@
         [--json out.json]
 
 `ref` is bench/ref_llama.py's output (Cerno's engine_llama.py on llama-server); the others are
-piquant harness result files of bench/decide_bench.py (RESULT lines) or cerno-pi decide JSON
+nibblepi harness result files of bench/decide_bench.py (RESULT lines) or cerno-pi decide JSON
 lines. Reports, over every question row both sides answered: the max and mean absolute
 probability difference (unrounded probabilities), argmax agreement, whether the token ids of the
 row are identical, and the rows with the largest differences.

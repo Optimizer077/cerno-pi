@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Build llama-server (and llama-tokenize) of piquant's llama.cpp baseline for the Cerno 4B
-# comparison (run inside WSL Ubuntu as root). Same source, tag and Pi flags as piquant's
+# Build llama-server (and llama-tokenize) of nibblepi's llama.cpp baseline for the Cerno 4B
+# comparison (run inside WSL Ubuntu as root). Same source, tag and Pi flags as nibblepi's
 # bench/llamacpp/build.sh (which clones $SRC), but in separate build directories, so the
 # existing baseline builds are not touched:
 #   host (x86, GGML_NATIVE=ON):   $SRC/build-host-server  -> <out>/host/llama-server/

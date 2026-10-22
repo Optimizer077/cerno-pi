@@ -1,0 +1,321 @@
+{
+  "name": "cerno-llama-server-2",
+  "command": "python3 tmp/cerno/bench/llama_pi.py --server tmp/cerno/llama-server --gguf models/cerno-4b-v1.1-q4_0.gguf --rows tmp/cerno/results/ref_llama_pc.jsonl --only contract_clause,code_review,medical_triage,intent_smart_home",
+  "timestamp": "2026-10-22T16:09:13",
+  "exit_code": 0,
+  "valid": true,
+  "results": [
+    {
+      "name": "intent_smart_home",
+      "total_seconds": 51.08449812599429,
+      "rows": [
+        {
+          "question": "primary_intent",
+          "seconds": 30.479658703996392,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 72,
+            "prompt_ms": 29623.765,
+            "prompt_per_token_ms": 411.44118055555555,
+            "prompt_per_second": 2.4304810681559217,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.852841689655195,
+            0.1133859362858754,
+            0.004392791302414749,
+            0.0040454669739473465,
+            0.011079715240801327,
+            0.014254400541766118
+          ]
+        },
+        {
+          "question": "multiple_intents",
+          "seconds": 20.60363261099701,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 50,
+            "prompt_ms": 20369.345,
+            "prompt_per_token_ms": 407.3869,
+            "prompt_per_second": 2.454669013657533,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.0751794741386556,
+            0.9248205258613444
+          ]
+        }
+      ]
+    },
+    {
+      "name": "contract_clause",
+      "total_seconds": 244.03498329700233,
+      "rows": [
+        {
+          "question": "notice_days",
+          "seconds": 67.79864945900044,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 166,
+            "prompt_ms": 67588.455,
+            "prompt_per_token_ms": 407.15936746987956,
+            "prompt_per_second": 2.4560407542974607,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.01243424766459033,
+            0.006847377283593738,
+            0.9727214640341788,
+            0.0039435040426903665,
+            0.004053406974946776
+          ]
+        },
+        {
+          "question": "data_returned",
+          "seconds": 58.15598622899415,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 145,
+            "prompt_ms": 58135.567,
+            "prompt_per_token_ms": 400.9349448275862,
+            "prompt_per_second": 2.4941702211315837,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.11824212702006927,
+            0.8817578729799307
+          ]
+        },
+        {
+          "question": "confidentiality_survives",
+          "seconds": 56.92986385500262,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 141,
+            "prompt_ms": 56908.668,
+            "prompt_per_token_ms": 403.6075744680851,
+            "prompt_per_second": 2.477654194963762,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.0582550127586345,
+            0.9417449872413655
+          ]
+        },
+        {
+          "question": "favours",
+          "seconds": 61.14896861399757,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 151,
+            "prompt_ms": 61125.283,
+            "prompt_per_token_ms": 404.80319867549673,
+            "prompt_per_second": 2.4703362109587284,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.24381850683456152,
+            0.18134966017183823,
+            0.5748318329936003
+          ]
+        }
+      ]
+    },
+    {
+      "name": "medical_triage",
+      "total_seconds": 69.34838655900239,
+      "rows": [
+        {
+          "question": "triage",
+          "seconds": 38.216469904000405,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 94,
+            "prompt_ms": 38014.684,
+            "prompt_per_token_ms": 404.4115319148936,
+            "prompt_per_second": 2.4727286961006962,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.0164486099371902,
+            0.04177504218815309,
+            0.13615177146058113,
+            0.5254265670466115,
+            0.28019800936746403
+          ]
+        },
+        {
+          "question": "call_ambulance",
+          "seconds": 31.131148391999886,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 76,
+            "prompt_ms": 30948.033,
+            "prompt_per_token_ms": 407.2109605263158,
+            "prompt_per_second": 2.455729577385419,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.00989829584643962,
+            0.9901017041535604
+          ]
+        }
+      ]
+    },
+    {
+      "name": "code_review",
+      "total_seconds": 106.51796463999926,
+      "rows": [
+        {
+          "question": "bug",
+          "seconds": 33.03583601900027,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 79,
+            "prompt_ms": 32578.038,
+            "prompt_per_token_ms": 412.3802278481013,
+            "prompt_per_second": 2.4249465237900454,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.2280356984991086,
+            0.7719643015008915
+          ]
+        },
+        {
+          "question": "error",
+          "seconds": 36.026887541003816,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 87,
+            "prompt_ms": 36001.246,
+            "prompt_per_token_ms": 413.8074252873563,
+            "prompt_per_second": 2.416583026043043,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.04159002256140651,
+            0.8625514670686525,
+            0.017536639002951986,
+            0.04043040293498641,
+            0.037891468432002536
+          ]
+        },
+        {
+          "question": "fix_effort",
+          "seconds": 37.45292702900042,
+          "timings": {
+            "cache_n": 0,
+            "prompt_n": 92,
+            "prompt_ms": 37433.233,
+            "prompt_per_token_ms": 406.88296739130436,
+            "prompt_per_second": 2.457709169817098,
+            "predicted_n": 1,
+            "predicted_ms": 0.001,
+            "predicted_per_token_ms": 0.0,
+            "predicted_per_second": 0.0
+          },
+          "probs": [
+            0.5252340710647212,
+            0.3877141978825776,
+            0.08705173105270123
+          ]
+        }
+      ]
+    },
+    {
+      "summary": true,
+      "engine": "llama-server",
+      "cmd": "tmp/cerno/llama-server -m models/cerno-4b-v1.1-q4_0.gguf --host 127.0.0.1 --port 8095 -c 4096 -t 4 --parallel 1",
+      "load_s": 12.090997735998826,
+      "requests": 4,
+      "questions": 11,
+      "decision_s": {
+        "median": 87.93317559950083,
+        "mean": 117.74645815549957,
+        "max": 244.03498329700233
+      },
+      "first_question_s": {
+        "median": 35.62615296150034,
+        "mean": 42.38265352149938
+      },
+      "later_question_s": {
+        "median": 37.45292702900042,
+        "mean": 43.06420203871364,
+        "n": 7
+      },
+      "server_peak_rss_mib": 3553.9
+    }
+  ],
+  "unparsed": [],
+  "stdout": "RESULT {\"name\": \"intent_smart_home\", \"total_seconds\": 51.08449812599429, \"rows\": [{\"question\": \"primary_intent\", \"seconds\": 30.479658703996392, \"timings\": {\"cache_n\": 0, \"prompt_n\": 72, \"prompt_ms\": 29623.765, \"prompt_per_token_ms\": 411.44118055555555, \"prompt_per_second\": 2.4304810681559217, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.852841689655195, 0.1133859362858754, 0.004392791302414749, 0.0040454669739473465, 0.011079715240801327, 0.014254400541766118]}, {\"question\": \"multiple_intents\", \"seconds\": 20.60363261099701, \"timings\": {\"cache_n\": 0, \"prompt_n\": 50, \"prompt_ms\": 20369.345, \"prompt_per_token_ms\": 407.3869, \"prompt_per_second\": 2.454669013657533, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.0751794741386556, 0.9248205258613444]}]}\nRESULT {\"name\": \"contract_clause\", \"total_seconds\": 244.03498329700233, \"rows\": [{\"question\": \"notice_days\", \"seconds\": 67.79864945900044, \"timings\": {\"cache_n\": 0, \"prompt_n\": 166, \"prompt_ms\": 67588.455, \"prompt_per_token_ms\": 407.15936746987956, \"prompt_per_second\": 2.4560407542974607, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.01243424766459033, 0.006847377283593738, 0.9727214640341788, 0.0039435040426903665, 0.004053406974946776]}, {\"question\": \"data_returned\", \"seconds\": 58.15598622899415, \"timings\": {\"cache_n\": 0, \"prompt_n\": 145, \"prompt_ms\": 58135.567, \"prompt_per_token_ms\": 400.9349448275862, \"prompt_per_second\": 2.4941702211315837, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.11824212702006927, 0.8817578729799307]}, {\"question\": \"confidentiality_survives\", \"seconds\": 56.92986385500262, \"timings\": {\"cache_n\": 0, \"prompt_n\": 141, \"prompt_ms\": 56908.668, \"prompt_per_token_ms\": 403.6075744680851, \"prompt_per_second\": 2.477654194963762, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.0582550127586345, 0.9417449872413655]}, {\"question\": \"favours\", \"seconds\": 61.14896861399757, \"timings\": {\"cache_n\": 0, \"prompt_n\": 151, \"prompt_ms\": 61125.283, \"prompt_per_token_ms\": 404.80319867549673, \"prompt_per_second\": 2.4703362109587284, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.24381850683456152, 0.18134966017183823, 0.5748318329936003]}]}\nRESULT {\"name\": \"medical_triage\", \"total_seconds\": 69.34838655900239, \"rows\": [{\"question\": \"triage\", \"seconds\": 38.216469904000405, \"timings\": {\"cache_n\": 0, \"prompt_n\": 94, \"prompt_ms\": 38014.684, \"prompt_per_token_ms\": 404.4115319148936, \"prompt_per_second\": 2.4727286961006962, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.0164486099371902, 0.04177504218815309, 0.13615177146058113, 0.5254265670466115, 0.28019800936746403]}, {\"question\": \"call_ambulance\", \"seconds\": 31.131148391999886, \"timings\": {\"cache_n\": 0, \"prompt_n\": 76, \"prompt_ms\": 30948.033, \"prompt_per_token_ms\": 407.2109605263158, \"prompt_per_second\": 2.455729577385419, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.00989829584643962, 0.9901017041535604]}]}\nRESULT {\"name\": \"code_review\", \"total_seconds\": 106.51796463999926, \"rows\": [{\"question\": \"bug\", \"seconds\": 33.03583601900027, \"timings\": {\"cache_n\": 0, \"prompt_n\": 79, \"prompt_ms\": 32578.038, \"prompt_per_token_ms\": 412.3802278481013, \"prompt_per_second\": 2.4249465237900454, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.2280356984991086, 0.7719643015008915]}, {\"question\": \"error\", \"seconds\": 36.026887541003816, \"timings\": {\"cache_n\": 0, \"prompt_n\": 87, \"prompt_ms\": 36001.246, \"prompt_per_token_ms\": 413.8074252873563, \"prompt_per_second\": 2.416583026043043, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.04159002256140651, 0.8625514670686525, 0.017536639002951986, 0.04043040293498641, 0.037891468432002536]}, {\"question\": \"fix_effort\", \"seconds\": 37.45292702900042, \"timings\": {\"cache_n\": 0, \"prompt_n\": 92, \"prompt_ms\": 37433.233, \"prompt_per_token_ms\": 406.88296739130436, \"prompt_per_second\": 2.457709169817098, \"predicted_n\": 1, \"predicted_ms\": 0.001, \"predicted_per_token_ms\": 0.0, \"predicted_per_second\": 0.0}, \"probs\": [0.5252340710647212, 0.3877141978825776, 0.08705173105270123]}]}\nRESULT {\"summary\": true, \"engine\": \"llama-server\", \"cmd\": \"tmp/cerno/llama-server -m models/cerno-4b-v1.1-q4_0.gguf --host 127.0.0.1 --port 8095 -c 4096 -t 4 --parallel 1\", \"load_s\": 12.090997735998826, \"requests\": 4, \"questions\": 11, \"decision_s\": {\"median\": 87.93317559950083, \"mean\": 117.74645815549957, \"max\": 244.03498329700233}, \"first_question_s\": {\"median\": 35.62615296150034, \"mean\": 42.38265352149938}, \"later_question_s\": {\"median\": 37.45292702900042, \"mean\": 43.06420203871364, \"n\": 7}, \"server_peak_rss_mib\": 3553.9}\n",
+  "stderr": "",
+  "state_before": {
+    "model": "Raspberry Pi 4 Model B Rev 1.1",
+    "boot_time": "2026-10-22 01:35:00",
+    "boot_id": "6e970849-272d-4006-bd8b-3053fa942c9d",
+    "kernel": "6.18.50+rpt-rpi-v8",
+    "cmdline": "coherent_pool=1M 8250.nr_uarts=0 snd_bcm2835.enable_headphones=0 cgroup_disable=memory numa_policy=interleave nvme.max_host_mem_size_mb=32 snd_bcm2835.enable_headphones=1 snd_bcm2835.enable_hdmi=1 snd_bcm2835.enable_hdmi=0  numa=fake=2 system_heap.max_order=0 iommu_dma_numa_policy=interleave smsc95xx.macaddr=<mac> vc_mem.mem_base=0x3eb00000 vc_mem.mem_size=0x3ff00000  console=ttyS0,115200 console=tty1 root=PARTUUID=393ab1fb-02 rootfstype=ext4 fsck.repair=yes rootwait cfg80211.ieee80211_regdom=KR",
+    "page_size": "4096",
+    "cpu_features": "fp asimd evtstrm crc32 cpuid",
+    "governor": "ondemand",
+    "freq_khz": "1500000 1500000 1500000 1500000",
+    "isolated": "",
+    "nohz_full": "",
+    "temp": "54.0'C",
+    "throttled": "0x0",
+    "hugepages_total": "",
+    "thp": "",
+    "mem_avail_mb": "3497",
+    "python": "Python 3.13.5"
+  },
+  "state_after": {
+    "model": "Raspberry Pi 4 Model B Rev 1.1",
+    "boot_time": "2026-10-22 01:35:00",
+    "boot_id": "6e970849-272d-4006-bd8b-3053fa942c9d",
+    "kernel": "6.18.50+rpt-rpi-v8",
+    "cmdline": "coherent_pool=1M 8250.nr_uarts=0 snd_bcm2835.enable_headphones=0 cgroup_disable=memory numa_policy=interleave nvme.max_host_mem_size_mb=32 snd_bcm2835.enable_headphones=1 snd_bcm2835.enable_hdmi=1 snd_bcm2835.enable_hdmi=0  numa=fake=2 system_heap.max_order=0 iommu_dma_numa_policy=interleave smsc95xx.macaddr=<mac> vc_mem.mem_base=0x3eb00000 vc_mem.mem_size=0x3ff00000  console=ttyS0,115200 console=tty1 root=PARTUUID=393ab1fb-02 rootfstype=ext4 fsck.repair=yes rootwait cfg80211.ieee80211_regdom=KR",
+    "page_size": "4096",
+    "cpu_features": "fp asimd evtstrm crc32 cpuid",
+    "governor": "ondemand",
+    "freq_khz": "1500000 1500000 1500000 1500000",
+    "isolated": "",
+    "nohz_full": "",
+    "temp": "59.9'C",
+    "throttled": "0x0",
+    "hugepages_total": "",
+    "thp": "",
+    "mem_avail_mb": "3530",
+    "python": "Python 3.13.5"
+  }
+}
