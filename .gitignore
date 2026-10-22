@@ -1,0 +1,23 @@
+# Weights and converted models are never committed or redistributed (see CERNO.md, "Licence").
+models/
+*.pq
+*.gguf
+*.safetensors
+*.bin
+*.tokenizer/
+# secrets
+*.secret
+*.toml.local
+.env
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv*/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+# scratch
+tmp/

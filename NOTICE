@@ -1,0 +1,25 @@
+cerno-pi
+Licensed under the Apache License, Version 2.0 (LICENSE).
+
+This product includes software adapted from:
+
+- cerno-inference, https://github.com/apertixsk/cerno-inference, commit
+  9941548d836ff53b56e326860f94b93adc79bee9, Apache-2.0: the scoring protocol of
+  evals/decision_index/engine_llama.py (one row per question, label readout, temperature
+  applied as p^(1/T) and renormalised), ported in cerno_pi/decide.py; bench/ref_llama.py runs
+  that engine unmodified as the reference.
+- decider, https://github.com/Mapika/decider, commit 1c15a48f199adc0eb1952b17441516b5358d79a0,
+  Apache-2.0 (declared in its pyproject.toml), as vendored and modified in cerno-inference
+  (third_party/decider, LOCAL_CHANGES.md): the state-first prompt layout and label table
+  (decider/prompt.py), typed-question rendering and answer format (decider/systemone.py) and
+  neutralize_options (decider/infer.py), ported in cerno_pi/decide.py.
+
+Changes made here: the code was rewritten as typed functions for one-question rows (the
+engines' plan_rows(..., isolated=False) path; isolated score levels are not supported), the
+readout is computed from pinfer's logits of the label tokens, and the rows' shared state prefix
+is prefilled once and restored from a snapshot for every question.
+
+The Cerno model weights are NOT part of this repository and are not redistributed by it.
+Their model cards (apertixai/cerno-4b, apertixai/cerno-4b-GGUF on Hugging Face) declare
+Apache-2.0, but the weight repositories carry no LICENSE file of their own; this project uses
+the weights only locally, for testing. See CERNO.md.
