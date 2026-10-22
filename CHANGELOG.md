@@ -4,27 +4,47 @@ Newest first. Measurements and their result files: [CERNO.md](CERNO.md).
 
 ## 2026-10-22 (KST)
 
+### Finished (15:00–16:45)
+- Engine: rebuilt on nibblepi 0.2.0 (`pinfer_run_cerno2`; nibblepi gates on the Pi: spec_exact
+  58/58 with the 0.2.0 md5s, ctx_check 5/5 identical). Its probabilities equal the first build's
+  bit for bit.
+- Measured (Pi 4, 1.5 GHz):
+  - all 18 requests / 52 questions: decision median 27.7 s; first question 14.4 s; each further
+    question 5.5 s; prefill 6.4–6.6 tok/s; peak RSS 2395 MiB;
+  - against Cerno's llama.cpp engine: token ids identical on 52/52 rows, max |Δp| 0.0108, same
+    top answer on 51/52;
+  - llama.cpp's llama-server on the same Pi with the same prompts: 4.5× slower in total (median
+    112.4 vs 27.6 s on 8 requests), because it re-reads every row. Prefill 2.43–2.45 tok/s,
+    peak RSS 3554 MiB.
+- Optimizations measured directly:
+  - state snapshot: 325.3 → 89.3 s on the 400-token incident log;
+  - label rows only: −649 MiB peak RSS, −0.15 s per question;
+  - both give bit-identical probabilities;
+  - prefill batch size and fp16 KV: no gain.
+- Added:
+  - `bench/llama_pi.py`: llama-server timing on the Pi;
+  - `bench/speed_table.py`, `bench/compare_runs.py`, `bench/summary.py`;
+  - `tools/make_figures.py`, `tools/make_animation.py`, with `tools/figstyle.py` from nibblepi;
+  - README figures: a decision example, agreement over the whole set, and the decision-flow
+    animation; each in light and dark, desktop and phone;
+  - README sections: Results, What a decision looks like, How it works, Agreement, Dataset.
+- Changed: links to the engine project now point to `github.com/Optimizer077/nibblepi`.
+
 ### Paused at a checkpoint (14:55)
-- Work paused for an overclock test on the shared Pi; status, open items and next steps in
-  CERNO.md §8. All timings so far are at 1.5 GHz.
+- Work paused for an overclock test on the shared Pi; the first results (set A, 1.5 GHz) were
+  committed as work in progress.
 
-### Added
-- `cerno_pi` package (depends on pinfer ≥ 0.2.0 with `Model.eval_select`): `Decider` reproduces
-  the scoring protocol of Cerno's llama.cpp engine (decider's state-first rows, label readout,
-  calibration temperature from `decider_config.json`, "none of the above" neutralisation),
-  prefills the rows' shared state once and restores a snapshot per question, and reads only the
-  label rows of the output head. CLI: `cerno-pi decide` / `python -m cerno_pi decide`.
-- `bench/ref_llama.py` (runs Cerno's `engine_llama.py` unmodified against llama-server and records
-  unrounded probabilities and token ids), `bench/decide_bench.py` (Pi timing through piquant's
-  harness), `bench/compare.py`, `bench/compare_refs.py`, `bench/latency_table.py`,
-  `scripts/build_llama_server.sh`, `requests/correctness.json` (18 requests, 52 questions).
-- `tests/test_decide.py`: question rendering, neutralisation, prefix logic, the readout formula
-  equals the reference's `p^(1/T)` renormalisation, answer shapes, prompt layout with the Cerno
-  tokenizer (6/6).
-
-### Measured (Pi 4 at 1.5 GHz)
-- Prefill 5.53 / 5.57 tok/s (64 / 256 tokens); a decision on a short state 17–38 s (median 32.6 s),
-  later questions of the same state ~6.7 s each; peak RSS 2.32 GiB.
-- Correctness on 31 rows: token ids identical to llama-server's on all rows; max |Δp| 0.0108,
-  mean 0.0028, argmax 30/31 (one 0.497 / 0.503 tie) — the same spread llama.cpp shows between
-  its own f16-KV and f32-KV settings (max 0.0092, mean 0.0027).
+### Added (13:45–14:55)
+- `cerno_pi` package (depends on pinfer ≥ 0.2.0 with `Model.eval_select`).
+  - `Decider` reproduces the scoring protocol of Cerno's llama.cpp engine: decider's state-first
+    rows, label readout, calibration temperature from `decider_config.json`, "none of the above"
+    neutralisation.
+  - It prefills the rows' shared state once and restores a snapshot per question, and reads only
+    the label rows of the output head.
+  - CLI: `cerno-pi decide` / `python -m cerno_pi decide`.
+- Scripts:
+  - `bench/ref_llama.py`: runs Cerno's `engine_llama.py` unmodified against llama-server;
+  - `bench/decide_bench.py`, `bench/compare.py`, `bench/compare_refs.py`, `bench/latency_table.py`;
+  - `scripts/build_llama_server.sh`;
+  - `requests/correctness.json`: 18 requests, 52 questions.
+- `tests/test_decide.py`: 6/6.
