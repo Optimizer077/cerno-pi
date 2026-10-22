@@ -17,10 +17,13 @@ generated. This module reproduces the scoring protocol of Cerno's llama.cpp engi
 * options that read like "none of the above" are shown to the model as "not listed here".
 
 Every row starts with the same state tokens, so the engine prefills the common prefix once,
-snapshots it (:meth:`pinfer.Model.save_state`) and scores each question from the snapshot;
-the engine's batched and token-by-token paths are bit-identical, so the result equals scoring
-every row from scratch. Only the label rows of the output head are computed
-(:meth:`pinfer.Model.eval_select`).
+checkpoints it and scores each question from the checkpoint; the engine's batched and
+token-by-token paths are bit-identical, so the result equals scoring every row from scratch.
+The checkpoint is the engine's in-context one (:meth:`pinfer.Model.checkpoint` /
+:meth:`pinfer.Model.rewind`: only the recurrent state is copied, the prefix's KV rows stay in
+place) when the library has it, else a state blob (:meth:`pinfer.Model.save_state` /
+:meth:`pinfer.Model.load_state`); both give the same probabilities bit for bit. Only the label
+rows of the output head are computed (:meth:`pinfer.Model.eval_select`).
 
 Portions are adapted from decider (https://github.com/Mapika/decider, commit 1c15a48f,
 Apache-2.0) as vendored and modified in cerno-inference (https://github.com/apertixsk/
@@ -247,6 +250,7 @@ class RowTiming:
     question: str
     tokens: int            # tokens evaluated for this row (after the shared prefix)
     seconds: float         # restore (if any) + eval of the row's suffix + label readout
+    restore_seconds: float = 0.0   # of which the rewind / load_state / reset before the row
 
 
 @dataclass
@@ -260,15 +264,19 @@ class Decision:
     snapshot_seconds: float = 0.0
     row_timing: list[RowTiming] = field(default_factory=list)
     total_seconds: float = 0.0
+    snapshot: str = ""     # "checkpoint" (in-engine), "state" (save_state blob) or "" (none)
 
     def to_json(self, timing: bool = True) -> dict[str, Any]:
         out: dict[str, Any] = {"answers": self.answers, "probabilities": self.probabilities}
         if timing:
             out["timing"] = {"prefix_tokens": self.prefix_tokens,
                              "prefix_seconds": round(self.prefix_seconds, 4),
+                             "snapshot": self.snapshot,
                              "snapshot_seconds": round(self.snapshot_seconds, 4),
                              "rows": [{"question": r.question, "tokens": r.tokens,
-                                       "seconds": round(r.seconds, 4)} for r in self.row_timing],
+                                       "seconds": round(r.seconds, 4),
+                                       "restore_seconds": round(r.restore_seconds, 4)}
+                                      for r in self.row_timing],
                              "total_seconds": round(self.total_seconds, 4)}
         return out
 
@@ -300,12 +308,19 @@ class Decider:
         reuse_state: Prefill the rows' common prefix once and restore it for every question.
         top_n: Emulate the llama.cpp reference's top-``n`` probability list (labels outside
             the top ``n`` of the full vocabulary count as 0). Needs the full logits.
+        checkpoint: How ``reuse_state`` restores the prefix: None (default) = the engine's
+            in-context checkpoint when the library has it (``Model.checkpoint`` / ``rewind``),
+            else a state blob; False = always the state blob (``save_state`` /
+            ``load_state``); True = the checkpoint (NotImplementedError without it). Both
+            paths give the same probabilities bit for bit; the checkpoint is faster and
+            copies only the recurrent state, not the prefix's KV rows.
     """
 
     def __init__(self, model: Model, temperature: float | None = None,
                  neutralize_none: bool | None = None,
                  max_state_tokens: int = DEFAULT_MAX_STATE_TOKENS, tokenization: str = "text",
-                 reuse_state: bool = True, top_n: int | None = None) -> None:
+                 reuse_state: bool = True, top_n: int | None = None,
+                 checkpoint: bool | None = None) -> None:
         if model.tokenizer is None:
             raise ValueError("Decider needs a model with a tokenizer")
         if tokenization not in ("text", "ids"):
@@ -321,7 +336,12 @@ class Decider:
                                     else neutralize_none)
         self.max_state_tokens = int(max_state_tokens)
         self.tokenization = tokenization
-        self.reuse_state = bool(reuse_state) and model.supports_state
+        has_ck = bool(getattr(model, "supports_checkpoint", False))   # pinfer >= 0.2 + C API
+        if checkpoint and not has_ck:
+            raise NotImplementedError("checkpoint=True needs a pinfer with Model.checkpoint "
+                                      "and a libpinfer with pinfer_checkpoint")
+        self.use_checkpoint = bool(reuse_state) and has_ck and checkpoint is not False
+        self.reuse_state = self.use_checkpoint or (bool(reuse_state) and model.supports_state)
         self.top_n = top_n
         self.labels = label_table(self.tok)
 
@@ -357,24 +377,33 @@ class Decider:
         lcp = common_prefix([rows[k] for k in keys]) if self.reuse_state and len(keys) > 1 else 0
         res = Decision({}, {}, rows)
         m = self.model
-        m.reset()
-        snap = None
+        m.reset()                     # also drops the previous decision's checkpoint
+        snap: bytes | None = None
         if lcp > 0:
             t0 = time.perf_counter()
             m.eval_select(rows[keys[0]][:lcp], [])
             res.prefix_tokens, res.prefix_seconds = lcp, time.perf_counter() - t0
             t0 = time.perf_counter()
-            snap = m.save_state()
+            if self.use_checkpoint:
+                m.checkpoint()
+                res.snapshot = "checkpoint"
+            else:
+                snap = m.save_state()
+                res.snapshot = "state"
             res.snapshot_seconds = time.perf_counter() - t0
         for i, k in enumerate(keys):
             t0 = time.perf_counter()
-            if snap is not None and i > 0:
-                m.load_state(snap)
-            elif snap is None and i > 0:
-                m.reset()
+            if i > 0:
+                if res.snapshot == "checkpoint":
+                    m.rewind()
+                elif snap is not None:
+                    m.load_state(snap)
+                else:
+                    m.reset()
+            t_restore = time.perf_counter() - t0
             suffix = rows[k][lcp:]
             p = self._score(suffix, len(rqs[k].options))
-            res.row_timing.append(RowTiming(k, len(suffix), time.perf_counter() - t0))
+            res.row_timing.append(RowTiming(k, len(suffix), time.perf_counter() - t0, t_restore))
             res.probabilities[k] = p
             res.answers[k] = format_answer(rqs[k], p)
         res.total_seconds = time.perf_counter() - t_start

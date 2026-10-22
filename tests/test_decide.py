@@ -7,12 +7,15 @@ from __future__ import annotations
 
 import math
 import os
+import zlib
+from pathlib import Path
 
 import numpy as np
 import pytest
 
 from cerno_pi.decide import (
     NEUTRAL_NONE,
+    Decider,
     annotate_indices,
     build_row,
     common_prefix,
@@ -92,3 +95,96 @@ def test_row_layout_matches_hand_rendering() -> None:
     wide = [f"opt{i}" for i in range(12)]
     ids = build_row(tok, labels, "s", "Which?", wide)
     assert tok.decode(ids).endswith("\n(L) opt11\nAnswer: (")
+
+
+# ---------------------------------------------------------------- shared-prefix restore paths
+class _CharTok:
+    """Character-level stand-in for the tokenizer: one id per character, plus a single id
+    for every label string (A..Z, AA..ZZ) so that label_table finds 255 labels."""
+
+    BASE = 0x110000   # above every code point
+
+    def __init__(self) -> None:
+        up = [chr(65 + i) for i in range(26)]
+        names = up + [a + b for a in up for b in up]
+        self.ids = {n: self.BASE + i for i, n in enumerate(names)}
+        self.names = {v: k for k, v in self.ids.items()}
+
+    def encode(self, text: str, add_special_tokens: bool = False) -> list[int]:
+        return [self.ids[text]] if text in self.ids else [ord(c) for c in text]
+
+    def decode(self, ids: list[int]) -> str:
+        return "".join(self.names.get(i) or chr(i) for i in ids)
+
+
+class _FakeModel:
+    """Duck-typed pinfer.Model: the 'logits' of a label are a hash of the whole context, so a
+    restore that leaves anything else in context changes every probability."""
+
+    def __init__(self, checkpoint: bool) -> None:
+        self.tokenizer = _CharTok()
+        self.path = Path("no-such-dir") / "fake.pq"
+        self.max_ctx = 4096
+        self.supports_state = True
+        self.supports_checkpoint = checkpoint
+        self.ctx: list[int] = []
+        self.ck: list[int] | None = None
+        self.calls: list[str] = []
+
+    def reset(self) -> None:
+        self.ctx, self.ck = [], None
+
+    def eval_select(self, toks: list[int], ids: list[int]) -> np.ndarray:
+        self.ctx += list(toks)
+        h = zlib.crc32(np.asarray(self.ctx, dtype=np.int64).tobytes())
+        return np.array([((h ^ (i * 2654435761)) % 1000) / 100.0 for i in ids],
+                        dtype=np.float32)
+
+    def save_state(self) -> bytes:
+        self.calls.append("save")
+        return np.asarray(self.ctx, dtype=np.int64).tobytes()
+
+    def load_state(self, data: bytes) -> None:
+        self.calls.append("load")
+        self.ctx, self.ck = np.frombuffer(data, dtype=np.int64).tolist(), None
+
+    def checkpoint(self) -> None:
+        self.calls.append("checkpoint")
+        self.ck = list(self.ctx)
+
+    def rewind(self) -> None:
+        self.calls.append("rewind")
+        assert self.ck is not None
+        self.ctx = list(self.ck)
+
+
+QUESTIONS = {
+    "kind": {"type": "choice", "instructions": "Which kind?", "criteria": ["a", "b", "c"]},
+    "urgent": {"type": "noul", "instructions": "Is it urgent?"},
+    "level": {"type": "score", "instructions": "How bad?", "criteria": ["low", "mid", "high"]},
+}
+
+
+def test_checkpoint_and_state_paths_agree_exactly() -> None:
+    """The in-engine checkpoint, the state blob and no reuse score the same rows."""
+    runs = {}
+    for name, kw, ck in (("checkpoint", {}, True), ("state", {"checkpoint": False}, True),
+                         ("fallback", {}, False), ("none", {"reuse_state": False}, True)):
+        fm = _FakeModel(checkpoint=ck)
+        res = Decider(fm, **kw).decide("the printer is on fire", QUESTIONS)  # type: ignore[arg-type]
+        runs[name] = (res, fm.calls)
+    assert runs["checkpoint"][1] == ["checkpoint", "rewind", "rewind"]
+    assert runs["state"][1] == runs["fallback"][1] == ["save", "load", "load"]
+    assert runs["none"][1] == []
+    assert runs["checkpoint"][0].snapshot == "checkpoint"
+    assert runs["state"][0].snapshot == runs["fallback"][0].snapshot == "state"
+    assert runs["none"][0].snapshot == ""
+    ref = runs["none"][0].probabilities
+    for name in ("checkpoint", "state", "fallback"):
+        assert runs[name][0].probabilities == ref, name
+        assert runs[name][0].prefix_tokens > 0
+
+
+def test_checkpoint_true_needs_the_api() -> None:
+    with pytest.raises(NotImplementedError):
+        Decider(_FakeModel(checkpoint=False), checkpoint=True)  # type: ignore[arg-type]
