@@ -97,7 +97,7 @@ class Painter(Canvas):
             d.ellipse((x+w/2-radius,jy-radius,x+w/2+radius,jy+radius),fill=t.yellow)
         phases = ['GPU submitted first', 'CPU computes meanwhile', 'Wait, join the rows', 'Next matrix']
         y = self.line(d,x,jy+self.px(3),phases[fr.phase],self.bold,t.ink)
-        return self.para(d,x,y,'Repeat for prefill batches ≥7 tokens; decode stays on CPU.',w)+self.px(14)
+        return self.para(d,x,y,'GPU helps read the prompt; single-token steps stay on the CPU.',w)+self.px(14)
 
     def meter(self,d,x,y,w,fr):
         t,r = self.t,PREFILL[fr.n]
@@ -111,8 +111,8 @@ class Painter(Canvas):
             if progress:
                 d.rectangle((x,y,x+w*progress,y+self.px(13)),fill=col)
             y += self.px(23)
-        y = self.para(d,x,y,f'P64: {PREFILL[64]["cpu_tps"]:.2f} → {PREFILL[64]["gpu_tps"]:.2f} tok/s',w)
-        y = self.para(d,x,y,f'P256: {PREFILL[256]["cpu_tps"]:.2f} → {PREFILL[256]["gpu_tps"]:.2f} tok/s',w)
+        y = self.para(d,x,y,f'64-token prompt: {PREFILL[64]["cpu_tps"]:.2f} → {PREFILL[64]["gpu_tps"]:.2f} tok/s',w)
+        y = self.para(d,x,y,f'256-token prompt: {PREFILL[256]["cpu_tps"]:.2f} → {PREFILL[256]["gpu_tps"]:.2f} tok/s',w)
         return y+self.px(12)
 
     def request(self,d,x,y,w):
