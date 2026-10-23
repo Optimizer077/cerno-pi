@@ -33,6 +33,7 @@ Both engines run the same prompts.
 |---|---|---|
 | prefill speed | **6.4–6.6 tokens/s** | 2.43–2.45 tokens/s (`llama-bench`, 64 / 256 tokens) |
 | one decision, 8 requests both engines ran (26 questions) | **median 27.6 s** | median 112.4 s (4.5× longer in total) |
+| one decision today, 5 requests (13 questions), pinfer 0.3 | **mean 20.7 s**; **17.3 s with the opt-in GPU** | — |
 | first question of a request | median 12.0 s | median 33.7 s |
 | each further question on the same state | **median 5.4 s** (the state is reused) | median 33.6 s (the whole row again) |
 | peak memory (VmHWM) | **2395 MiB** | 3554 MiB |
@@ -100,7 +101,20 @@ Cerno's own llama.cpp engine on the same GGUF:
   <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="docs/figures/decision_flow-mobile-dark.gif">
   <source media="(max-width: 600px)" srcset="docs/figures/decision_flow-mobile.gif">
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/decision_flow-dark.gif">
-  <img alt="Animation of one request on the Pi (a contract clause, four questions), with the Pi's real times played four times faster. The 118-token state is prefilled once (17.3 s) and saved as a snapshot (0.26 s). The first question runs on the prefilled state, each later one restores the snapshot; each runs only its own 23–48 tokens and reads only the option-label rows of the 248,320-row head (3.7–6.9 s), and its probabilities fill in as bars: 90 days 0.97, data returned yes 0.88, confidentiality survives yes 0.94, favours balanced 0.56. Total 37.2 s." src="docs/figures/decision_flow.gif">
+  <img alt="Animated Cerno decision on a Raspberry Pi 4 (measured times, played four times faster): a 26-token shared prefix is read once (3.67 s) and checkpointed inside the engine (19.5 ms); each question rewinds to the checkpoint, reads only its own tokens (46 and 24) and scores only its answer-option labels: smart home control 0.86, more than one request yes 0.93. Save and restore fall from 240 and 105 ms to about 20 ms each; the shared-prefix KV rows are reused. Total 13.7 s." src="docs/figures/decision_flow.gif">
+</picture>
+
+**Optional: the Pi's GPU reads the prompt too.** With `gpu_split=0.33` (pinfer 0.3, off by default) the
+VideoCore VI GPU takes about a third of the rows of the largest matrices while the four CPU cores do the rest.
+A decision gets **16.5% faster** (20.67 → 17.26 s, mean of 5 requests over 3 rounds; model load 2.7 → 6.8 s,
+paid once). The GPU's arithmetic differs slightly from the CPU's: on the 52-question check the probabilities stay
+within 0.013 of the reference, but two near-50/50 yes/no answers flip (50/52 same top answer), so it is opt-in.
+
+<picture>
+  <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="docs/figures/decision_gpu-mobile-dark.gif">
+  <source media="(max-width: 600px)" srcset="docs/figures/decision_gpu-mobile.gif">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/decision_gpu-dark.gif">
+  <img alt="Animation of Cerno 4B's opt-in GPU mode on a Raspberry Pi 4: inside one selected matrix the weight rows split, about a third to the VideoCore VI's 8 QPUs (uploaded once, 499 MiB) and two thirds to the four Cortex-A72 cores; the GPU part is submitted first, the CPU computes meanwhile, then the results join. Prompt reading rises from 6.76 to 8.17 tokens/s (64 tokens) and 6.92 to 8.20 (256); one request takes 11.44 s instead of 13.86 s, and the mean decision 17.26 s instead of 20.67 s. Off by default; probabilities within 0.013 of the reference; near-50/50 answers may flip." src="docs/figures/decision_gpu.gif">
 </picture>
 
 1. nibblepi's `tools/gguf_to_pq.py` converts the GGUF into pinfer's `.pq` format without

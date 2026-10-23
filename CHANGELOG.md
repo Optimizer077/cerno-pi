@@ -2,6 +2,14 @@
 
 Newest first. Measurements and their result files: [CERNO.md](CERNO.md).
 
+## 2026-10-23
+
+- Opt-in GPU mode (nibblepi pinfer 0.3, `gpu_split=0.33`): decisions 20.67 → 17.26 s (−16.5%); probabilities within
+  0.013 of the reference, two near-50/50 flips on the 52-question check; off by default.
+- Animations: `decision_flow` redrawn for the in-engine checkpoint (save / restore 240 / 105 → ~20 ms) with today's
+  measured times; new `decision_gpu` (CPU + GPU prompt reading). Every number in `tools/animation_measurements.py`
+  with its source; made by the channel agent (nibblepi `channel/channel.md` t008), reviewed by the lead.
+
 ## 2026-10-22 (KST)
 
 ### In-engine checkpoint (18:00–, branch `feat/checkpoint`; nibblepi branch `worktree-agent-a4d7c6bb45401045d`)
