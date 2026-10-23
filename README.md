@@ -108,9 +108,11 @@ Cerno's own llama.cpp engine on the same GGUF:
    checks the result bit for bit (`--verify`). The model was trained for the Q4_0 grid, so that grid
    must stay exactly as published.
 2. `cerno_pi.Decider` builds one prompt row per question, exactly as Cerno's llama.cpp engine does
-   (decider's state-first layout). It prefills the state that all rows share **once**, snapshots
-   the model state, and scores every question from the snapshot. The results are bit-identical to
-   scoring each row from scratch (checked on the Pi).
+   (decider's state-first layout). It prefills the state that all rows share **once**, checkpoints
+   the model state inside the engine (`Model.checkpoint` / `rewind`: only the recurrent state is
+   copied, the prefix's KV rows stay in place; `save_state` / `load_state` with an older library),
+   and scores every question from the checkpoint. The results are bit-identical to scoring each row
+   from scratch (checked on the Pi).
 3. Only the option-label rows of the 248,320-row output head are computed (`Model.eval_select`;
    −649 MiB of memory). The probabilities are `softmax(label logits / T)` with the model's
    calibration temperature (Cerno 4B: 1.534, from `decider_config.json`).
@@ -193,7 +195,8 @@ Question types:
 - `score`: 2–10 ordered levels.
 
 Options:
-- `--no-reuse`: no snapshot;
+- `--no-reuse`: no shared-prefix reuse (every row from scratch); `--no-checkpoint`
+  (`bench/decide_bench.py`): the `save_state` / `load_state` path instead of the in-engine checkpoint;
 - `--tokenization ids`: decider's ids instead of re-tokenized text; differs only above 10 options;
 - `--top-n 260`: emulate the reference's top-260 probability list; reads the full head.
 

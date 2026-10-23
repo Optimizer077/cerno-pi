@@ -202,6 +202,7 @@ includes the Q4_0 repacking for the ARM kernels.
 | prefill batch size `-b` 4–64 | no gain over the default 64: 5.6–6.6 tok/s in single runs, within run-to-run spread; default kept | `cerno-prefill-sweep` |
 | fp16 KV cache | none at these lengths (6.22 vs 6.40 tok/s at 64 tokens); kept fp32 (exact) | same |
 | lossless conversion | the published QAT weights are kept bit for bit (no re-quantization loss) | §4 |
+| in-engine checkpoint instead of the state blob (nibblepi `pinfer_checkpoint` / `pinfer_rewind`, `Model.checkpoint` / `rewind`; branch `worktree-agent-a4d7c6bb45401045d`, cerno-pi `feat/checkpoint`): the shared prefix is checkpointed inside the context (only the 50 MiB recurrent + conv state is copied; the prefix's K/V rows stay in place) and each later question rewinds to it, instead of `save_state` (4 Python copies of a ~51 MiB + K/V blob) and `load_state` (recurrent state + K/V rows copied back) | PC (host build, bf16 0.8B stand-in): probabilities identical between the two paths, see `CHANGELOG.md`; **Pi (1.5 GHz, 5 requests / 13 questions, one A/B round): mean decision 20.91 → 20.57 s (−1.6 %), median 19.23 → 18.90 s; 13/13 probabilities identical; snapshot median 240 → 20 ms, restore 105 → 20 ms; peak RSS 2308 → 2202 MiB**; nibblepi gates on the same source: spec_exact 58/58, ctx_check 5/5, Cerno logits identical | nibblepi `engine/CONTEXT.md` §10; Pi result files nibblepi `bench/results/ckpt-decide-{state,ckpt}-r1_20261022_22*.json` |
 
 Not done: speculative or MTP drafting does not apply (no generation, and no MTP block). A
 smaller head or embedding format would change the published weights, so it was not done.
@@ -213,8 +214,12 @@ smaller head or embedding format would change the published weights, so it was n
    login and terms. Not done; the owner has to decide.
 2. llama-server timed on 8 of the 18 requests (26 of 52 questions): about 16 min of Pi time. The
    other 10 would take about 30 min more at 2.4 tok/s with no prefix reuse.
-3. At 2.0 GHz (the approved overclock), re-run `cerno-prefill-sweep`, `cerno-decide-reuse-{a2,b2}`
-   and the llama.cpp runs. Never mix clocks in one table.
+3. ~~At 2.0 GHz (the approved overclock), re-run the Pi tables.~~ 2.0 GHz froze the board (nibblepi
+   journal 2026-10-22 18:10); the owner decided to stay at stock 1.5 GHz. Never mix clocks in one table.
+4. Pi measurements of the in-engine checkpoint (§7 last row): `bash tmp/ck/decide_ab.sh ckpt|state` on
+   the lead's 5-request set (3 rounds each), all 18 requests once per path, `bench/compare_runs.py`
+   between the paths (must be 52/52 identical), peak RSS, and nibblepi's `tools/ckpt/ckpt_pi.sh`
+   for the C-level checkpoint / rewind / save / load times on a 38-token and a 387-token prefix.
 
 ## 9. Timeline (KST)
 

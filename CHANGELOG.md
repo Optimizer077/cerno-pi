@@ -4,6 +4,20 @@ Newest first. Measurements and their result files: [CERNO.md](CERNO.md).
 
 ## 2026-10-22 (KST)
 
+### In-engine checkpoint (18:00–, branch `feat/checkpoint`; nibblepi branch `worktree-agent-a4d7c6bb45401045d`)
+- `Decider` restores the rows' shared prefix with nibblepi's new in-context checkpoint
+  (`Model.checkpoint()` after the prefix, `Model.rewind()` before each later question: only the
+  recurrent + conv state is copied, the prefix's K/V rows stay in place) when the library has it,
+  else with `save_state` / `load_state` as before. `Decider(checkpoint=None | False | True)`,
+  `bench/decide_bench.py --no-checkpoint`; `Decision.snapshot` names the path, `RowTiming` /
+  the summary carry the restore and snapshot times.
+- Tests: `tests/test_decide.py` — a duck-typed model whose label logits hash the whole context
+  shows the checkpoint, state-blob, fallback and no-reuse paths give identical probabilities and
+  make the expected calls (7 passed, 1 skipped without `CERNO_TOKENIZER`).
+- Measured: PC host build (scalar kernels, bf16 Qwen3.5-0.8B as the stand-in, since the host
+  build cannot run Q4_0): see below once the run finishes. Pi (2026-10-23 check): decisions 20.91 → 20.57 s (−1.6 %), probabilities identical, RSS −106 MiB;
+  `CERNO.md` §8 item 4 lists the runs.
+
 ### Finished (15:00–16:45)
 - Engine: rebuilt on nibblepi 0.2.0 (`pinfer_run_cerno2`; nibblepi gates on the Pi: spec_exact
   58/58 with the 0.2.0 md5s, ctx_check 5/5 identical). Its probabilities equal the first build's
