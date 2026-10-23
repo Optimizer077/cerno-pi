@@ -1,0 +1,42 @@
+{
+  "name": "support_triage",
+  "state": "hey do u have showers at the downtown location",
+  "questions": {
+    "kind": {
+      "type": "choice",
+      "instructions": "What kind of message is this?",
+      "criteria": {
+        "incident": "an outage or something broken in production",
+        "billing": "invoices, charges, refunds",
+        "account": "cancellations, plan changes, access",
+        "feedback": "praise or suggestions",
+        "spam": "unsolicited or scam",
+        "other": null
+      }
+    },
+    "urgency": {
+      "type": "score",
+      "instructions": "How urgent is this message?",
+      "criteria": [
+        "no action needed",
+        "can wait a few days",
+        "should be handled today",
+        "needs attention right now"
+      ]
+    },
+    "tone": {
+      "type": "score",
+      "instructions": "What is the sender's tone?",
+      "criteria": [
+        "hostile",
+        "negative",
+        "neutral",
+        "positive"
+      ]
+    },
+    "needs_human": {
+      "type": "noul",
+      "instructions": "Does this message need a human to respond rather than an automated reply?"
+    }
+  }
+}

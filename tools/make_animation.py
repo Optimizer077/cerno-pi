@@ -13,7 +13,7 @@ from pathlib import Path
 from animkit import Canvas, FPS, save_animation
 from animation_measurements import (
     NAME, FLOW, PROBS, COPY_SNAPSHOT_MS, CHECKPOINT_MS, COPY_RESTORE_MS, REWIND_MS,
-    CHECKPOINT_BYTES, CLOCK_GHZ, TEMPERATURE,
+    CHECKPOINT_BYTES, CLOCK_GHZ,
 )
 from figstyle import DESKTOP, MOBILE, THEMES
 
@@ -118,9 +118,9 @@ class Painter(Canvas):
                  (1,f'2  Checkpoint inside the engine: {FLOW["checkpoint_s"]*1000:.1f} ms.'),
                  (2 if fr.step == 2 else 3,
                   f'3  {"Rewind, then read" if fr.q else "Read"} question {fr.q+1}: '
-                  f'{q["tokens"]} new tokens. Prefix KV stays in place.'),
-                 (4,f'4  Score only the {len(q["options"])} option-label rows; '
-                  f'softmax(logits / {TEMPERATURE:g}). No generated answer text.')]
+                  f'{q["tokens"]} new tokens. The prefix cache stays in place.'),
+                 (4,f'4  Score the {len(q["options"])} named options; '
+                  'return calibrated probabilities. No generated answer text.')]
         for step, text in items:
             active = fr.step == step or (fr.step == 5 and step == 4)
             y = self.para(d,x,y,text,w,self.bold if active else self.text_font,
@@ -129,11 +129,11 @@ class Painter(Canvas):
 
     def checkpoint(self,d,x,y,w,fr):
         t = self.t
-        y = self.line(d,x,y,'Checkpoint replaces Python blob copies',self.bold,t.ink)
+        y = self.line(d,x,y,'Checkpoint avoids copying model state',self.bold,t.ink)
         y = self.para(d,x,y,f'Save: {COPY_SNAPSHOT_MS:.0f} → {CHECKPOINT_MS:.0f} ms · '
                       f'restore: {COPY_RESTORE_MS:.0f} → {REWIND_MS:.0f} ms (medians).',w)
-        y = self.para(d,x,y,f'{CHECKPOINT_BYTES/1e6:.1f} MB of linear state stays in the engine; '
-                      'shared-prefix KV rows are reused.',w)
+        y = self.para(d,x,y,f'{CHECKPOINT_BYTES/1e6:.1f} MB of model state stays in the engine; '
+                      'the shared-prefix cache is reused.',w)
         if fr.step == 2:
             y = self.line(d,x,y,f'Rewinding now: {self.qs[fr.q]["rewind_s"]*1000:.1f} ms',
                           self.bold,t.ink)
