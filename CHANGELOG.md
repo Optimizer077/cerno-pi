@@ -15,7 +15,7 @@ Newest first. Measurements and their result files: [CERNO.md](CERNO.md).
   shows the checkpoint, state-blob, fallback and no-reuse paths give identical probabilities and
   make the expected calls (7 passed, 1 skipped without `CERNO_TOKENIZER`).
 - Measured: PC host build (scalar kernels, bf16 Qwen3.5-0.8B as the stand-in, since the host
-  build cannot run Q4_0): see below once the run finishes. Pi: pending (offline this evening);
+  build cannot run Q4_0): see below once the run finishes. Pi (2026-10-23 check): decisions 20.91 → 20.57 s (−1.6 %), probabilities identical, RSS −106 MiB;
   `CERNO.md` §8 item 4 lists the runs.
 
 ### Finished (15:00–16:45)
